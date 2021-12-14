@@ -1,4 +1,3 @@
-import import_ipynb
 from SystemLibrary import *
 import matplotlib.animation as animation
 from ForceGravityCalculators import *
@@ -14,7 +13,7 @@ runLength = 365*timeStep*2*165
 
 def forceRun(system):
     counter = 0
-    savePlots = True
+    savePlots = False
     saveData = True
     for currentTime in np.arange(0, runLength, timeStep):
         if currentTime == 0:
@@ -77,16 +76,15 @@ def txtToListOfBodies(fileLocation):
       
 
 #Controls   
-runForceRun = False
-loadTxt = True
-animateData = True
+runForceRun = True
+loadTxt = False
+animateData = False
     
 if runForceRun:
     forceRun(basicSolarSystem())
 if loadTxt:
     arrayList, bodiesData = txtToListOfBodies("runData/11_12_21/")
     if animateData:
-        get_ipython().run_line_magic('matplotlib', 'notebook')
         fig, ax = plt.subplots()
         ax.set(xlim=(-6E9, 6E9), ylim=(-6E9, 6E9))
         line, = ax.plot([], [], "o", markersize = 5)
@@ -100,7 +98,7 @@ if loadTxt:
             line.set_data(xList, yList)  
             return line,
         
-        ani = animation.FuncAnimation(fig, animate, np.arange(1, 12450),
+        ani = animation.FuncAnimation(fig, animate, np.arange(1, len(arrayList[0])),
             interval=1, save_count=720, blit=True)
         plt.show()
 
